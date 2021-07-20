@@ -59,7 +59,7 @@ export("as.human", "human.time")
 
 ## Constructors
 export("FNN") # constructor of object of S3 class c("gnn_FNN", "gnn_GNN", "gnn_Model")
-export("gof2sample") # constructor of an object of S3 class c("htest", "htest2")
+## export("gof2sample") # constructor of an object of S3 class c("htest", "htest2") => not working yet
 
 ## Generics
 export("is.GNN")
