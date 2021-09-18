@@ -39,8 +39,10 @@ loadGNN(file)
 }
 \examples{
 \donttest{
-file <- tempfile("foo", fileext = ".rda")
+library(tensorflow)
 install_tensorflow() # avoids "Error: Valid installation of TensorFlow not found"
+
+file <- tempfile("foo", fileext = ".rda")
 GMMN1 <- FNN()
 saveGNN(GMMN1, file = file) # converts GMMN via as.raw()
 GMMN2 <- loadGNN(file) # converts loaded object via as.keras()

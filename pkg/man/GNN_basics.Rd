@@ -48,9 +48,11 @@
 \author{Marius Hofert}
 \examples{
 \donttest{
+library(tensorflow)
+install_tensorflow() # avoids "Error: Valid installation of TensorFlow not found"
+
 d <- 2
 dim <- c(d, 300, d) # dimensions of the input, hidden and output layers
-install_tensorflow() # avoids "Error: Valid installation of TensorFlow not found"
 GMMN <- FNN(dim) # define the GMMN model
 stopifnot(is.GNN(GMMN)) # check for being a GNN
 GMMN # print() method
