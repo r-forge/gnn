@@ -17,7 +17,10 @@
 }
 \author{Marius Hofert}
 \examples{
-\donttest{ # to avoid win-builder error "Error: Installation of TensorFlow not found"
+\donttest{
+## Setup
+install_tensorflow() # avoids "Error: Valid installation of TensorFlow not found"
+
 ## Define dummy model
 d <- 2 # bivariate case
 GMMN <- FNN(c(d, 300, d)) # Feedforward NN with MMD loss (a GMMN; random weights)

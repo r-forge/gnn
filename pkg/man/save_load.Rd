@@ -38,8 +38,9 @@ loadGNN(file)
   and \code{\link{save}()} (among others).
 }
 \examples{
-\donttest{ # to avoid win-builder error "Error: Installation of TensorFlow not found"
+\donttest{
 file <- tempfile("foo", fileext = ".rda")
+install_tensorflow() # avoids "Error: Valid installation of TensorFlow not found"
 GMMN1 <- FNN()
 saveGNN(GMMN1, file = file) # converts GMMN via as.raw()
 GMMN2 <- loadGNN(file) # converts loaded object via as.keras()
