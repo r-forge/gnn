@@ -44,11 +44,13 @@ human.time(expr, print = TRUE, ...)
 }
 \author{Marius Hofert}
 \examples{
-\donttest{ # to avoid win-builder error "Error: Installation of TensorFlow not found"
+\donttest{
 human.time(Sys.sleep(0.1)) # print human-readable time
 (proc.obj <- human.time(Sys.sleep(0.1), print = FALSE)) # save the timing (character(3))
-time(FNN()) # default print method for objects of class "gnn_proc_time"
-time(FNN(), human = TRUE) # human-readable print method for such objects
+install_tensorflow() # avoids "Error: Valid installation of TensorFlow not found"
+fnn <- FNN()
+time(fnn) # default print method for objects of class "gnn_proc_time"
+time(fnn, human = TRUE) # human-readable print method for such objects
 }
 }
 \keyword{utilities}

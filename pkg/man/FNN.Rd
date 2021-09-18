@@ -98,7 +98,7 @@ FNN(dim = c(2, 2), activation = c(rep("relu", length(dim) - 2), "sigmoid"),
   networks. See \url{https://arxiv.org/abs/2012.08036}.
 }
 \examples{
-\donttest{ # to avoid win-builder error "Error: Installation of TensorFlow not found"
+\donttest{
 ## Training data
 d <- 2 # bivariate case
 P <- matrix(0.9, nrow = d, ncol = d); diag(P) <- 1 # correlation matrix
@@ -115,13 +115,16 @@ plot(X.[1:m,], xlab = expression(X[1]), ylab = expression(X[2])) # plot |X|
 U <- apply(X., 2, rank) / (ntrn + 1) # pseudo-observations of |X|
 plot(U[1:m,], xlab = expression(U[1]), ylab = expression(U[2])) # visual check
 
+## Setup
+install_tensorflow() # avoids "Error: Valid installation of TensorFlow not found"
+
 ## Model 1: A basic feedforward neural network (FNN) with MSE loss function
-NN <- FNN(c(d, 300, d), loss.fun = "MSE") # define the FNN
-NN <- fitGNN(NN, data = U, n.epoch = 40) # train with batch optimization
-plot(NN, plot.type = "loss") # plot the loss after each epoch
+fnn <- FNN(c(d, 300, d), loss.fun = "MSE") # define the FNN
+fnn <- fitGNN(fnn, data = U, n.epoch = 40) # train with batch optimization
+plot(fnn, plot.type = "loss") # plot the loss after each epoch
 
 ## Model 2: A GMMN (FNN with MMD loss function)
-GMMN <- FNN(c(d, 300, d)) # define the GMMN (initialized with random weights)
+gmmn <- FNN(c(d, 300, d)) # define the GMMN (initialized with random weights)
 ## For training we need to use a mini-batch optimization (batch size < nrow(U)).
 ## For a fair comparison (same number of gradient steps) to NN, we use 500
 ## samples (25% = 4 gradient steps/epoch) for 10 epochs for GMMN.
@@ -130,56 +133,56 @@ library(keras) # for callback_early_stopping()
 ## over the last patience-many epochs has changed by less than min_delta
 ## in absolute value. Then we keep the weights that led to the smallest
 ## loss seen throughout training.
-GMMN <- fitGNN(GMMN, data = U, batch.size = 500, n.epoch = 10,
+gmmn <- fitGNN(gmmn, data = U, batch.size = 500, n.epoch = 10,
                callbacks = callback_early_stopping(monitor = "loss",
                                                    min_delta = 1e-3, patience = 3,
                                                    restore_best_weights = TRUE))
-plot(GMMN, plot.type = "loss") # plot the loss after each epoch
+plot(gmmn, plot.type = "loss") # plot the loss after each epoch
 ## Note:
 ## - Obviously, in a real-world application, batch.size and n.epoch
 ##   should be (much) larger (e.g., batch.size = 5000, n.epoch = 300).
 ## - Training is not reproducible (due to keras).
 
 ## Model 3: A FNN with CvM loss function
-FN <- FNN(c(d, 300, d), loss.fun = "CvM")
-FN <- fitGNN(FN, data = U, batch.size = 500, n.epoch = 10,
-             callbacks = callback_early_stopping(monitor = "loss",
-                                                 min_delta = 1e-3, patience = 3,
-                                                 restore_best_weights = TRUE))
-plot(FN, plot.type = "loss") # plot the loss after each epoch
+fnnCvM <- FNN(c(d, 300, d), loss.fun = "CvM")
+fnnCvM <- fitGNN(fnnCvM, data = U, batch.size = 500, n.epoch = 10,
+                 callbacks = callback_early_stopping(monitor = "loss",
+                                                     min_delta = 1e-3, patience = 3,
+                                                     restore_best_weights = TRUE))
+plot(fnnCvM, plot.type = "loss") # plot the loss after each epoch
 
 ## Sample from the different models
 set.seed(271)
-V.NN <- rGNN(NN, size = m)
+V.fnn <- rGNN(fnn, size = m)
 set.seed(271)
-V.GMMN <- rGNN(GMMN, size = m)
+V.gmmn <- rGNN(gmmn, size = m)
 set.seed(271)
-V.FN <- rGNN(FN, size = m)
+V.fnnCvM <- rGNN(fnnCvM, size = m)
 
 ## Joint plot of training subsample with GMMN PRNs. Clearly, the MSE
 ## cannot be used to learn the distribution correctly.
 layout(matrix(1:4, ncol = 2, byrow = TRUE))
 plot(U[1:m,], xlab = expression(U[1]), ylab = expression(U[2]), cex = 0.2)
 mtext("Training subsample", side = 4, line = 0.4, adj = 0)
-plot(V.NN,    xlab = expression(V[1]), ylab = expression(V[2]), cex = 0.2)
+plot(V.fnn,    xlab = expression(V[1]), ylab = expression(V[2]), cex = 0.2)
 mtext("Trained NN with MSE loss", side = 4, line = 0.4, adj = 0)
-plot(V.GMMN,  xlab = expression(V[1]), ylab = expression(V[2]), cex = 0.2)
+plot(V.gmmn,  xlab = expression(V[1]), ylab = expression(V[2]), cex = 0.2)
 mtext("Trained NN with MMD loss", side = 4, line = 0.4, adj = 0)
-plot(V.FN,    xlab = expression(V[1]), ylab = expression(V[2]), cex = 0.2)
+plot(V.fnnCvM,    xlab = expression(V[1]), ylab = expression(V[2]), cex = 0.2)
 mtext("Trained NN with CvM loss", side = 4, line = 0.4, adj = 0)
 
 ## Joint plot of training subsample with GMMN QRNs
 library(qrng) # for sobol()
-V.NN.   <- rGNN(NN,   size = m, method = "sobol", randomize = "Owen")
-V.GMMN. <- rGNN(GMMN, size = m, method = "sobol", randomize = "Owen")
-V.FN.   <- rGNN(FN,   size = m, method = "sobol", randomize = "Owen")
+V.fnn.    <- rGNN(fnn,    size = m, method = "sobol", randomize = "Owen")
+V.gmmn.   <- rGNN(gmmn,   size = m, method = "sobol", randomize = "Owen")
+V.fnnCvM. <- rGNN(fnnCvM, size = m, method = "sobol", randomize = "Owen")
 plot(U[1:m,], xlab = expression(U[1]), ylab = expression(U[2]), cex = 0.2)
 mtext("Training subsample", side = 4, line = 0.4, adj = 0)
-plot(V.NN.,   xlab = expression(V[1]), ylab = expression(V[2]), cex = 0.2)
+plot(V.fnn., xlab = expression(V[1]), ylab = expression(V[2]), cex = 0.2)
 mtext("Trained NN with MSE loss", side = 4, line = 0.4, adj = 0)
-plot(V.GMMN., xlab = expression(V[1]), ylab = expression(V[2]), cex = 0.2)
+plot(V.gmmn., xlab = expression(V[1]), ylab = expression(V[2]), cex = 0.2)
 mtext("Trained NN with MMD loss", side = 4, line = 0.4, adj = 0)
-plot(V.FN.,   xlab = expression(V[1]), ylab = expression(V[2]), cex = 0.2)
+plot(V.fnnCvM., xlab = expression(V[1]), ylab = expression(V[2]), cex = 0.2)
 mtext("Trained NN with CvM loss", side = 4, line = 0.4, adj = 0)
 layout(1)
 par(opar)
