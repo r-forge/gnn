@@ -99,6 +99,9 @@ FNN(dim = c(2, 2), activation = c(rep("relu", length(dim) - 2), "sigmoid"),
 }
 \examples{
 \donttest{
+library(tensorflow)
+install_tensorflow() # avoids "Error: Valid installation of TensorFlow not found"
+
 ## Training data
 d <- 2 # bivariate case
 P <- matrix(0.9, nrow = d, ncol = d); diag(P) <- 1 # correlation matrix
@@ -114,9 +117,6 @@ opar <- par(pty = "s")
 plot(X.[1:m,], xlab = expression(X[1]), ylab = expression(X[2])) # plot |X|
 U <- apply(X., 2, rank) / (ntrn + 1) # pseudo-observations of |X|
 plot(U[1:m,], xlab = expression(U[1]), ylab = expression(U[2])) # visual check
-
-## Setup
-install_tensorflow() # avoids "Error: Valid installation of TensorFlow not found"
 
 ## Model 1: A basic feedforward neural network (FNN) with MSE loss function
 fnn <- FNN(c(d, 300, d), loss.fun = "MSE") # define the FNN

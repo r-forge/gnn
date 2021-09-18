@@ -18,7 +18,7 @@
 \author{Marius Hofert}
 \examples{
 \donttest{
-## Setup
+library(tensorflow)
 install_tensorflow() # avoids "Error: Valid installation of TensorFlow not found"
 
 ## Define dummy model

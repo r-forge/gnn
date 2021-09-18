@@ -45,9 +45,11 @@ human.time(expr, print = TRUE, ...)
 \author{Marius Hofert}
 \examples{
 \donttest{
+library(tensorflow)
+install_tensorflow() # avoids "Error: Valid installation of TensorFlow not found"
+
 human.time(Sys.sleep(0.1)) # print human-readable time
 (proc.obj <- human.time(Sys.sleep(0.1), print = FALSE)) # save the timing (character(3))
-install_tensorflow() # avoids "Error: Valid installation of TensorFlow not found"
 fnn <- FNN()
 time(fnn) # default print method for objects of class "gnn_proc_time"
 time(fnn, human = TRUE) # human-readable print method for such objects

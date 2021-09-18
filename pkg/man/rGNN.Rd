@@ -32,9 +32,11 @@
 \author{Marius Hofert}
 \examples{
 \donttest{
+library(tensorflow)
+install_tensorflow() # avoids "Error: Valid installation of TensorFlow not found"
+
 ## Define dummy model
 d <- 2 # bivariate case
-install_tensorflow() # avoids "Error: Valid installation of TensorFlow not found"
 GMMN <- FNN(c(d, 300, d)) # Feedforward NN with MMD loss (a GMMN; random weights)
 
 ## Sampling
