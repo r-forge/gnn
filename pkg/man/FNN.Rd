@@ -98,9 +98,8 @@ FNN(dim = c(2, 2), activation = c(rep("relu", length(dim) - 2), "sigmoid"),
   networks. See \url{https://arxiv.org/abs/2012.08036}.
 }
 \examples{
-\donttest{
-library(tensorflow)
-install_tensorflow() # avoids "Error: Valid installation of TensorFlow not found"
+\dontrun{
+library(gnn) # to be standalone
 
 ## Training data
 d <- 2 # bivariate case
