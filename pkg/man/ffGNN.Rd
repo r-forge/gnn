@@ -17,8 +17,9 @@
 }
 \author{Marius Hofert}
 \examples{
-\dontrun{
 library(gnn) # to be standalone
+
+if(TensorFlow_available()) { # rather restrictive (R-Forge check, winbuilder)
 
 ## Define dummy model
 d <- 2 # bivariate case
@@ -29,6 +30,7 @@ n <- 3
 set.seed(271)
 X <- ffGNN(GMMN, data = matrix(runif(n * d), ncol = d))
 stopifnot(dim(X) == c(n, d))
+
 }
 }
 \keyword{methods}

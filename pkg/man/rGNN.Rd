@@ -31,8 +31,9 @@
 }
 \author{Marius Hofert}
 \examples{
-\dontrun{
 library(gnn) # to be standalone
+
+if(TensorFlow_available()) { # rather restrictive (R-Forge check, winbuilder)
 
 ## Define dummy model
 d <- 2 # bivariate case
@@ -45,6 +46,7 @@ n <- 3
             qmargins = qexp, method = "sobol", seed = 271))
 (X3 <- rGNN(GMMN, prior = matrix(rexp(n * d), ncol = d))) # providing 'prior'
 stopifnot(dim(X1) == c(n, d), dim(X2) == c(n, d), dim(X3) == c(n, d))
+
 }
 }
 \keyword{methods}

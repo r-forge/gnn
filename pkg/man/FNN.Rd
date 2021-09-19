@@ -98,8 +98,9 @@ FNN(dim = c(2, 2), activation = c(rep("relu", length(dim) - 2), "sigmoid"),
   networks. See \url{https://arxiv.org/abs/2012.08036}.
 }
 \examples{
-\dontrun{
 library(gnn) # to be standalone
+
+if(TensorFlow_available()) { # rather restrictive (R-Forge check, winbuilder)
 
 ## Training data
 d <- 2 # bivariate case
@@ -185,6 +186,7 @@ plot(V.fnnCvM., xlab = expression(V[1]), ylab = expression(V[2]), cex = 0.2)
 mtext("Trained NN with CvM loss", side = 4, line = 0.4, adj = 0)
 layout(1)
 par(opar)
+
 }
 }
 \keyword{models}

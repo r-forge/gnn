@@ -47,8 +47,9 @@
 }
 \author{Marius Hofert}
 \examples{
-\dontrun{
 library(gnn) # to be standalone
+
+if(TensorFlow_available()) { # rather restrictive (R-Forge check, winbuilder)
 
 d <- 2
 dim <- c(d, 300, d) # dimensions of the input, hidden and output layers
@@ -58,6 +59,7 @@ GMMN # print() method
 str(GMMN) # str() method
 summary(GMMN) # summary() method
 stopifnot(dim(GMMN) == c(d, 300, d)) # dim() method
+
 }
 }
 \keyword{methods}
