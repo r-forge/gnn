@@ -38,9 +38,8 @@ loadGNN(file)
   and \code{\link{save}()} (among others).
 }
 \examples{
-\donttest{
-library(tensorflow)
-install_tensorflow() # avoids "Error: Valid installation of TensorFlow not found"
+\dontrun{
+library(gnn) # to be standalone
 
 file <- tempfile("foo", fileext = ".rda")
 GMMN1 <- FNN()

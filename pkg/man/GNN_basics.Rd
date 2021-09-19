@@ -47,9 +47,8 @@
 }
 \author{Marius Hofert}
 \examples{
-\donttest{
-library(tensorflow)
-install_tensorflow() # avoids "Error: Valid installation of TensorFlow not found"
+\dontrun{
+library(gnn) # to be standalone
 
 d <- 2
 dim <- c(d, 300, d) # dimensions of the input, hidden and output layers

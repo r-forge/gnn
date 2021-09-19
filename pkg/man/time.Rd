@@ -44,9 +44,8 @@ human.time(expr, print = TRUE, ...)
 }
 \author{Marius Hofert}
 \examples{
-\donttest{
-library(tensorflow)
-install_tensorflow() # avoids "Error: Valid installation of TensorFlow not found"
+\dontrun{
+library(gnn) # to be standalone
 
 human.time(Sys.sleep(0.1)) # print human-readable time
 (proc.obj <- human.time(Sys.sleep(0.1), print = FALSE)) # save the timing (character(3))

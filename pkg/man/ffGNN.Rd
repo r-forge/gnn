@@ -17,9 +17,8 @@
 }
 \author{Marius Hofert}
 \examples{
-\donttest{
-library(tensorflow)
-install_tensorflow() # avoids "Error: Valid installation of TensorFlow not found"
+\dontrun{
+library(gnn) # to be standalone
 
 ## Define dummy model
 d <- 2 # bivariate case
