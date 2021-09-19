@@ -38,8 +38,9 @@ loadGNN(file)
   and \code{\link{save}()} (among others).
 }
 \examples{
-\dontrun{
 library(gnn) # to be standalone
+
+if(TensorFlow_available()) { # rather restrictive (R-Forge check, winbuilder)
 
 file <- tempfile("foo", fileext = ".rda")
 GMMN1 <- FNN()
@@ -48,6 +49,7 @@ GMMN2 <- loadGNN(file) # converts loaded object via as.keras()
 stopifnot(is.GNN(GMMN2), inherits(GMMN2[["model"]], "keras.engine.training.Model"))
 rm(GMMN1, GMMN2) # clean-up
 stopifnot(file.remove(file))
+
 }
 }
 \keyword{manip}
