@@ -19,6 +19,8 @@ TensorFlow_available()
   Marius Hofert
 }
 \examples{
+library(gnn) # for being standalone
+
 TensorFlow_available()
 }
 \keyword{programming}

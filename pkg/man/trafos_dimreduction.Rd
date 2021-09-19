@@ -69,6 +69,8 @@ PCA_trafo(x, mu, Gamma, inverse = FALSE, ...)
    Princeton University Press.
 }
 \examples{
+library(gnn) # for being standalone
+
 ## Generate data
 library(copula)
 set.seed(271)

@@ -37,6 +37,8 @@ logis_trafo(x, mean = 0, sd = 1, slope = 1, intercept = 0, inverse = FALSE)
 }
 \author{Marius Hofert}
 \examples{
+library(gnn) # for being standalone
+
 ## Generate data
 n <- 100
 set.seed(271)

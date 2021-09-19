@@ -38,9 +38,8 @@ loadGNN(file)
   and \code{\link{save}()} (among others).
 }
 \examples{
-library(gnn) # to be standalone
-
-if(TensorFlow_available()) { # rather restrictive (R-Forge check, winbuilder)
+if(TensorFlow_available()) { # rather restrictive (due to R-Forge, winbuilder)
+library(gnn) # for being standalone
 
 file <- tempfile("foo", fileext = ".rda")
 GMMN1 <- FNN()
