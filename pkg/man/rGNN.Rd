@@ -31,9 +31,8 @@
 }
 \author{Marius Hofert}
 \examples{
-library(gnn) # to be standalone
-
-if(TensorFlow_available()) { # rather restrictive (R-Forge check, winbuilder)
+if(TensorFlow_available()) { # rather restrictive (due to R-Forge, winbuilder)
+library(gnn) # for being standalone
 
 ## Define dummy model
 d <- 2 # bivariate case

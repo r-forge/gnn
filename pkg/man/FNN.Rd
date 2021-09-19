@@ -97,10 +97,17 @@ FNN(dim = c(2, 2), activation = c(rep("relu", length(dim) - 2), "sigmoid"),
   Applications of multivariate quasi-random sampling with neural
   networks. See \url{https://arxiv.org/abs/2012.08036}.
 }
+% Note:
+% - The following runs much longer than the allowed time limit but it
+%   doesn't matter as it's not run by R-Forge or CRAN checks.
+% - Also note that the local check with --as-cran produces a note
+%   saying that __pycache__, tmphfypfw3y.py, tmppvcp8ymi.py,
+%   tmpz6_axkch.py are found. It's unclear why, these files/folders
+%   don't exists locally and there is also no such warning on R-Forge
+%   or winbuilder.
 \examples{
-library(gnn) # to be standalone
-
-if(TensorFlow_available()) { # rather restrictive (R-Forge check, winbuilder)
+if(TensorFlow_available()) { # rather restrictive (due to R-Forge, winbuilder)
+library(gnn) # for being standalone
 
 ## Training data
 d <- 2 # bivariate case

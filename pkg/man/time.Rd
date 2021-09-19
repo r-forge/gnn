@@ -44,9 +44,8 @@ human.time(expr, print = TRUE, ...)
 }
 \author{Marius Hofert}
 \examples{
-library(gnn) # to be standalone
-
-if(TensorFlow_available()) { # rather restrictive (R-Forge check, winbuilder)
+if(TensorFlow_available()) { # rather restrictive (due to R-Forge, winbuilder)
+library(gnn) # for being standalone
 
 human.time(Sys.sleep(0.1)) # print human-readable time
 (proc.obj <- human.time(Sys.sleep(0.1), print = FALSE)) # save the timing (character(3))

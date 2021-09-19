@@ -47,9 +47,8 @@
 }
 \author{Marius Hofert}
 \examples{
-library(gnn) # to be standalone
-
-if(TensorFlow_available()) { # rather restrictive (R-Forge check, winbuilder)
+if(TensorFlow_available()) { # rather restrictive (due to R-Forge, winbuilder)
+library(gnn) # for being standalone
 
 d <- 2
 dim <- c(d, 300, d) # dimensions of the input, hidden and output layers

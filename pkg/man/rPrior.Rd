@@ -25,6 +25,8 @@ rPrior(n, copula, qmargins = qnorm, method = c("pseudo", "sobol"), ...)
 }
 \author{Marius Hofert}
 \examples{
+library(gnn) # for being standalone
+
 n <- 5
 d <- 3
 library(copula)

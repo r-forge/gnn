@@ -28,6 +28,8 @@ catch(expr)
   the \R package \pkg{simsalapar}).
 }
 \examples{
+library(gnn) # for being standalone
+
 catch(log(2))
 catch(log(-1))
 catch(log("a"))

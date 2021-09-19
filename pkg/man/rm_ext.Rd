@@ -17,6 +17,8 @@ rm_ext(x)
 }
 \author{Marius Hofert}
 \examples{
+library(gnn) # for being standalone
+
 myfilepath1 <- "/myusername/my_filename_with_dots_0.25_0.50_0.75.rda"
 myfilepath2 <- "/myusername/my_filename_with_dots_0.25_0.50_0.75"
 myfilepath3 <- "/myusername/my_filename_with_dots_0.25_0.50_0.75."
