@@ -197,9 +197,9 @@ MMD <- function(x, y, ...) # method = c("tensorflow", "C"), ...)
 ### Main loss function wrapper #################################################
 
 ##' @title Loss Function to Measure Statistical Discrepancy between Two Datasets
-##' @param x (n, d)-tensor (for training: n = batch size, d = dimension of input
-##'        dataset)
-##' @param y (m, d)-tensor (for training typically m = n)
+##' @param x (n, d)-tensor or matrix (for training: n = batch size, d = dimension
+##'        of input dataset)
+##' @param y (m, d)-tensor or matrix (for training typically m = n)
 ##' @param type type of reconstruction loss function. Currently available are:
 ##'        "MMD": (kernel) maximum mean discrepancy
 ##'        "CvM": Cramer-von Mises statistic of Remillard, Scaillet (2009,
@@ -211,6 +211,8 @@ MMD <- function(x, y, ...) # method = c("tensorflow", "C"), ...)
 ##' @author Marius Hofert and Avinash Prasad
 loss <- function(x, y, type = c("MMD", "CvM", "MSE", "BCE"), ...)
 {
+    if(is.numeric(x)) x <- rbind(x) # to work for 1-sample input
+    if(is.numeric(y)) y <- rbind(y)
     type <- match.arg(type)
     switch(type,
            "MMD" = { # (theoretically) most suitable for measuring statistical discrepancy
