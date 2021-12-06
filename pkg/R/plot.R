@@ -44,7 +44,7 @@ plot.gnn_GNN <- function(x, plot.type = c("scatter", "loss"), max.n.samples = NU
                stopifnot(len.labs == 1 || len.labs == d) # if d, then use 'labels' as is
                if(len.labs == 1) {
                    labels <- as.expression(lapply(1:d, function(j)
-                       substitute(l.[j.], list(l. = as.name(labels[j]), j. = j))))
+                       substitute(l.[j.], list(l. = as.name(labels), j. = j))))
                }
                if(is.null(y2lab)) {
                    y2lab <- paste0("Sample size = ",nrow(sample))
