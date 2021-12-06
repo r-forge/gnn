@@ -37,7 +37,8 @@ plot.gnn_GNN <- function(x, plot.type = c("scatter", "loss"), max.n.samples = NU
                pair.given <- !is.null(pair)
                if(is.null(max.n.samples))
                    max.n.samples <- if(d == 2 || pair.given) 5000 else 1000
-               sample <- ffGNN(x, data = x[["prior"]][seq_len(min(nrow(x[["prior"]]), max.n.samples)),]) # at most max.n.samples samples
+               data <- x[["prior"]][seq_len(min(nrow(x[["prior"]]), max.n.samples)),] # min{nrow(prior), max.n.samples}-many samples
+               sample <- ffGNN(x, data = data)
 
                ## Labels
                len.labs <- length(labels)
