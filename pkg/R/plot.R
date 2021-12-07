@@ -2,7 +2,7 @@
 
 ##' @title Plot of the Loss per Epoch after Training
 ##' @param x object of class "gnn_GNN"
-##' @param plot.type character string indicating the type of plot
+##' @param kind character string indicating the type of plot
 ##' @param max.n.samples maximal number of samples to be plotted
 ##' @param type see ?plot
 ##' @param xlab see ?plot
@@ -12,24 +12,24 @@
 ##' @param pair numeric(2) providing the indices of the pair being plotted (if
 ##'        provided)
 ##' @param ... additional arguments passed to the underlying plot() or pairs()
-##' @return plot of the specified plot.type by side-effect
+##' @return plot of the specified kind by side-effect
 ##' @author Marius Hofert
 ##' @note - plot() is already a generic, no need to define this generic for
 ##'         plot.gnn_GNN()
 ##'       - Could also add training time, but not directly loss related
-##'       - For the naming of 'plot.type', see ?plot.ts
-plot.gnn_GNN <- function(x, plot.type = c("scatter", "loss"), max.n.samples = NULL,
+##'       - For the naming of 'kind', see ?plot.ts
+plot.gnn_GNN <- function(x, kind = c("scatter", "loss"), max.n.samples = NULL,
                          type = NULL, xlab = NULL, ylab = NULL, # for plot()
                          y2lab = NULL, # secondary y-axis label
                          labels = "X", pair = NULL, # for pairs()
                          ...)
 {
-    plot.type <- match.arg(plot.type)
-    switch(plot.type, # currently only 'loss' available
+    kind <- match.arg(kind)
+    switch(kind, # currently only 'loss' available
            "scatter" = {
                ## Check
                if(!is.trained.gnn_GNN(x)) {
-                   stop("'x' needs to be a trained object of class \"gnn_GNN\" if plot.type = \"scatter\"")
+                   stop("'x' needs to be a trained object of class \"gnn_GNN\" if kind = \"scatter\"")
                }
 
                ## Evaluate GNN on the saved prior
@@ -74,7 +74,7 @@ plot.gnn_GNN <- function(x, plot.type = c("scatter", "loss"), max.n.samples = NU
            "loss" = {
                ## Check
                if(!is.trained.gnn_GNN(x))
-                   stop("'x' needs to be a trained object of class \"gnn_GNN\" if plot.type = \"loss\"")
+                   stop("'x' needs to be a trained object of class \"gnn_GNN\" if kind = \"loss\"")
                    ## Define variables
                    if(is.null(type)) type <- "l"
                    if(is.null(xlab)) xlab <- "Epoch"
@@ -88,5 +88,5 @@ plot.gnn_GNN <- function(x, plot.type = c("scatter", "loss"), max.n.samples = NU
                    plot(x[["loss"]], type = type, xlab = xlab, ylab = ylab, ...)
                    if(y2lab != "") mtext(y2lab, side = 4, line = 0.5, adj = 0)
            },
-           stop("Wrong 'plot.type'"))
+           stop("Wrong 'kind'"))
 }

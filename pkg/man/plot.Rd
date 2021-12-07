@@ -6,14 +6,14 @@
   Functions for plotting.
 }
 \usage{
-\method{plot}{gnn_GNN}(x, plot.type = c("scatter", "loss"), max.n.samples = NULL,
+\method{plot}{gnn_GNN}(x, kind = c("scatter", "loss"), max.n.samples = NULL,
     type = NULL, xlab = NULL, ylab = NULL,
     y2lab = NULL, labels = "X", pair = NULL, ...)
 }
 \arguments{
   \item{x}{trained object of class \code{"gnn_GNN"}
     whose loss function (loss per epoch of training) is to be plotted.}
-  \item{plot.type}{\code{\link{character}()} indicating the type
+  \item{kind}{\code{\link{character}()} indicating the type
     of plot.}
   \item{max.n.samples}{maximal number of samples to be plotted.}
   \item{type}{line type; see \code{\link{plot}()}.}
