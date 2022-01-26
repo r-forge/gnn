@@ -27,7 +27,7 @@ importFrom("methods",
            "hasArg", "is")
 
 importFrom("stats",
-           "predict", "rnorm", "qnorm", "plogis", "qlogis", "prcomp",
+           "predict", "rnorm", "qnorm", "plogis", "qlogis", "prcomp", "quantile",
            "time") # generic time()
 
 importFrom("utils",
@@ -55,6 +55,7 @@ export("saveGNN", "loadGNN")
 export("catch", "TensorFlow_available", # use via if(!TensorFlow_available()) q()
        "rm_ext")
 export("rPrior")
+export("find_box")
 export("as.human", "human.time")
 
 ## Constructors
