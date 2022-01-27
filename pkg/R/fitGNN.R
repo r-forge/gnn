@@ -107,10 +107,7 @@ fitGNN.gnn_GNN <- function(x, data, batch.size = nrow(data), n.epoch = 100, prio
            "FNN" = {
                if(is.null(prior)) {
                    prior <- rPrior(nrow(data), copula = indepCopula(ncol(data))) # independent N(0,1)
-               } else {
-                  # if(!all(dim(data) == dim(prior)))
-                    #   stop("dim(data) != dim(prior)")
-               }
+               } 
                ## Note:
                ## - x = data to be passed through NN as input
                ##   y = target/training data to compare against
