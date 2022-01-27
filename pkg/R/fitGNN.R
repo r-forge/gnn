@@ -98,8 +98,8 @@ fitGNN.gnn_GNN <- function(x, data, batch.size = nrow(data), n.epoch = 100, prio
               verbose %% 1 == 0, 0 <= verbose, verbose <= 3)
     dim.out <- tail(dim(x), n = 1) # output dimension
     ## Note: for VAEs, dim.out = dim(x)[1] as input and output layer have the same dim
-    if(dim.train[2] != dim.out)
-        stop("The dimension of the training data does not match the dimension of the output layer of the GNN")
+ ##   if(dim.train[2] != dim.out)
+ ##       stop("The dimension of the training data does not match the   ## dimension of the output layer of the GNN")
 
     ## Train and possibly save
     type <- x[["type"]]
@@ -108,8 +108,8 @@ fitGNN.gnn_GNN <- function(x, data, batch.size = nrow(data), n.epoch = 100, prio
                if(is.null(prior)) {
                    prior <- rPrior(nrow(data), copula = indepCopula(ncol(data))) # independent N(0,1)
                } else {
-                   if(!all(dim(data) == dim(prior)))
-                       stop("dim(data) != dim(prior)")
+                  # if(!all(dim(data) == dim(prior)))
+                    #   stop("dim(data) != dim(prior)")
                }
                ## Note:
                ## - x = data to be passed through NN as input
