@@ -3,19 +3,26 @@
 ##' @title Box Numbers (Multivariate) Points Fall Into
 ##' @param x (n, d)-matrix of n d-dimensional points, n >= 1, d >= 1
 ##' @param endpoints d-list of endpoints e of the boxes, with endpoints[[j]]
-##'        being the argument 'vec' of findInterval(). Defaults to the
+##'        being the argument 'vec' of findInterval(); defaults to the
 ##'        empirical quantiles of k = 5 intervals per dimension.
+##'        Also allowed is a vector, in which case it is assumed to be
+##'        the same for all d dimensions.
 ##' @param method character string indicating the method of how boxes
 ##'        are determined:
 ##'        - "per.dim": d box numbers per point x[i,], indicating, in each
 ##'          dimensions, in which box x[i,] falls.
+##'        - "lexicographic": one box number per point x[i,], indicating
+##'          in which box (numbered consecutively over all *nonempty* boxes
+##'          in lexicographic order) x[i,] falls.
+##'        - "nested": one box number per point x[i,], indicating in
+##'          which box (along the d-dimensional diagonal, nested towards
+##'          the two tails) x[i,] falls.
+##'          This method requires all elements of 'endpoints' to have the
+##'          same length (so the same number k of intervals per dimensions).
 ##'        - "diagonal": one box number per point x[i,], indicating in
 ##'          which box (along the d-dimensional diagonal) x[i,] falls.
 ##'          This method requires all elements of 'endpoints' to have the
 ##'          same length (so the same number k of intervals per dimensions).
-##'        - "lexicographic": one box number per point x[i,], indicating
-##'          in which box (numbered consecutively over all *nonempty* boxes
-##'          in lexicographic order) x[i,] falls.
 ##' @param rightmost.closed see ?findInterval (but with different default here)
 ##' @param left.open see ?findInterval (but with different default here)
 ##' @param ... additional arguments passed to the underlying findInterval()
@@ -27,10 +34,12 @@
 ##'           with box numbers (again 0 if 'in no box').
 ##' @author Marius Hofert
 ##' @note - method != "per.dim" can be used to index a vector of colors
+##'       - Another way of clustering would be
+##'         kmns <- kmeans(x, centers = <(k, d)-matrix>) # then $cluster and $centers
 ##'       - language: box = hyperrectangle, cube = hyperrectangle
 ##'         with equal sides
 find_box <- function(x, endpoints = NULL,
-                     method = c("per.dim", "diagonal", "lexicographic"),
+                     method = c("per.dim", "lexicographic", "nested", "diagonal"),
                      rightmost.closed = TRUE, left.open = TRUE, ...)
 {
     ## Checks
@@ -40,7 +49,7 @@ find_box <- function(x, endpoints = NULL,
     if(is.null(endpoints)) # use k = 5 intervals per dimension
         endpoints <- lapply(1:d, function(j)
             quantile(x[,j], probs = seq(0, 1, 0.2), names = FALSE))
-    if(!is.list(endpoints)) endpoints <- list(endpoints) # for d = 1
+    if(!is.list(endpoints)) endpoints <- rep(list(endpoints), d) # also works for d = 1
     stopifnot(length(endpoints) == d,
               sapply(endpoints, function(e.j) all(diff(e.j) > 0)))
 
@@ -59,16 +68,48 @@ find_box <- function(x, endpoints = NULL,
                B # return B
            },
            "diagonal" = {
-               if(d == 1) stop("method = \"diagonal\" requires d > 1")
-               ## Require the number of boxes in all dimensions to be equal (conservative)
+               if(d == 1) return(B)
+               ## Require the *number* of boxes in all dimensions to be equal
                elens <- sapply(endpoints, length)
                if(!all(diff(elens) == 0))
-                   stop("If method = \"diagonal\" the number of endpoints have to be the same for all dimensions.")
+                   stop("If method = \"diagonal\", the number of endpoints have to be the same for all dimensions.")
 
                ## For those points on the diagonal, return the (same, first)
                ## box number (per dimension).
                if(!is.matrix(B)) B <- rbind(B) # for case n = 1
                apply(B, 1, function(b) if(all(diff(b) == 0)) b[1] else 0)
+           },
+           "nested" = {
+               ## Require the *number* of boxes in all dimensions to be equal
+               elens <- sapply(endpoints, length)
+               if(!all(diff(elens) == 0))
+                   stop("If method = \"nested\", the number of endpoints have to be the same for all dimensions.")
+
+               ## Preliminaries
+               ne <- elens[1] # number of endpoints
+               nbox <- ne-1 # number of boxes
+               is.mid <- nbox %% 2 == 1 # indicating if there is a middle part
+               nbox2 <- if(is.mid) (nbox-1)/2 else nbox/2 # number of boxes in each tail
+               if(!is.matrix(B)) B <- rbind(B) # for case n = 1
+               B.max <- apply(B, 1, max) # for left tail
+               B.min <- apply(B, 1, min) # for right tail
+               n <- nrow(x)
+               res <- rep(0, n)
+
+               ## Middle part (if it exists)
+               if(is.mid)
+                   res[apply(B == nbox2 + 1, 1, all)] <- nbox2 + 1
+
+               ## Iterate over tails
+               for(k in nbox2:1) { # iterate from middle outwards (to correctly overwrite numbers)
+                   ## Left tail
+                   res[B.max <= k] <- k
+                   ## Right tail
+                   res[B.min >= nbox-k+1] <- nbox-k+1
+               }
+
+               ## Return
+               res
            },
            "lexicographic" = {
                ## Order boxes in lexicographic order (and keep the ordering for unsorting afterwards)
@@ -78,30 +119,25 @@ find_box <- function(x, endpoints = NULL,
 
                ## Iterate over all points' boxes and assign consecutive box numbers over
                ## all *nonempty*  boxes
-               box <- 0 # running box number
                n <- nrow(x)
-               res <- rep(NA, n)
-               res[1] <- if(any(B.[1,] == 0)) 0 else 1
+               res. <- rep(0, n) # result corresponding to B.
+               res.[1] <- if(any(B.[1,] == 0)) 0 else 1 # init (first row of B.)
                if(n > 1)
                    for(i in 2:n)
-                       res[i] <- if(any(B.[i,] == 0)) {
-                                     0 # set to 0 as the point is in no box
-                                 } else if(all(B.[i,] == B.[i-1,])) {
-                                     res[i-1] # set to previous number as the two points are in the same box
-                                 } else {
-                                     ## Note: Increment of 1 provides consecutive box numbers for all
-                                     ##       *nonempty* boxes. If at least one box is empty, the proper
-                                     ##       increments among box numbers from 1 to \prod_{j=1}^d k_j
-                                     ##       (with k_j = number of boxes in dimension j) are
-                                     ##       not easy to determine and so the maximal number we assign
-                                     ##       may be smaller than \prod_{j=1}^d k_j.
-                                     box <- box + 1
-                                     box
-                                 }
-                       stopifnot(!is.na(res)) # sanity check
+                       res.[i] <- if(all(B.[i,] == B.[i-1,])) {
+                                      res.[i-1] # set to previous number as the two points are in the same box
+                                  } else {
+                                      ## Note: Increment of 1 provides consecutive box numbers for all
+                                      ##       *nonempty* boxes. If at least one box is empty, the proper
+                                      ##       increments among box numbers from 1 to \prod_{j=1}^d k_j
+                                      ##       (with k_j = number of boxes in dimension j) are
+                                      ##       not easy to determine and so the maximal number we assign
+                                      ##       may be smaller than \prod_{j=1}^d k_j.
+                                      res.[i-1] + 1
+                                  }
 
                ## Undo sorting and return
-               res[order(ord)] # sanity check via: stopifnot(cbind(B., res)[order(ord), 1:d] == B)
+               res.[order(ord)] # sanity check via: stopifnot(cbind(B., res.)[order(ord), 1:d] == B)
            },
            stop("Wrong 'method'"))
 }
