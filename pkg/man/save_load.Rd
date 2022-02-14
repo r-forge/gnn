@@ -1,15 +1,15 @@
 \name{save_load_rda}
-\alias{saveGNN}
-\alias{loadGNN}
+\alias{save_gnn}
+\alias{load_gnn}
 \title{Save and Load .rda Files with Conversion to Raw and Keras Models}
 \description{
   Save and load \code{.rda} files with conversion to objects of class
-  \code{raw} (for \code{saveGNN()}) or \code{"keras.engine.training.Model"}
-  (for \code{loadGNN()}).
+  \code{raw} (for \code{save_gnn()}) or \code{"keras.engine.training.Model"}
+  (for \code{load_gnn()}).
 }
 \usage{
-saveGNN(..., file, name = NULL)
-loadGNN(file)
+save_gnn(..., file, name = NULL)
+load_gnn(file)
 }
 \arguments{
   \item{\dots}{objects to be saved in \code{file} (under the provided
@@ -25,8 +25,8 @@ loadGNN(file)
 }
 \value{
   \describe{
-    \item{saveGNN()}{nothing (generates an \code{.rda} by side-effect).}
-    \item{loadGNN()}{the loaded object(s). Those of class \code{"gnn_GNN"}
+    \item{save_gnn()}{nothing (generates an \code{.rda} by side-effect).}
+    \item{load_gnn()}{the loaded object(s). Those of class \code{"gnn_GNN"}
     are converted with \code{\link{as.keras}()} before they are
     returned; this also applies to a component of a loaded object of class
     \code{\link{list}}.}
@@ -43,8 +43,8 @@ library(gnn) # for being standalone
 
 file <- tempfile("foo", fileext = ".rda")
 GMMN1 <- FNN()
-saveGNN(GMMN1, file = file) # converts GMMN via as.raw()
-GMMN2 <- loadGNN(file) # converts loaded object via as.keras()
+save_gnn(GMMN1, file = file) # converts GMMN via as.raw()
+GMMN2 <- load_gnn(file) # converts loaded object via as.keras()
 stopifnot(is.GNN(GMMN2), inherits(GMMN2[["model"]], "keras.engine.training.Model"))
 rm(GMMN1, GMMN2) # clean-up
 stopifnot(file.remove(file))
