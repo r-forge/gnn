@@ -10,7 +10,7 @@
 ##' @return nothing (generates an .rda by side-effect)
 ##' @author Marius Hofert
 ##' @note as save(), saveGNN() also overwrites files
-saveGNN <- function(..., file, name = NULL)
+save_gnn <- function(..., file, name = NULL)
 {
     ## Basics
     stopifnot(is.character(file), length(file) == 1)
@@ -41,12 +41,12 @@ saveGNN <- function(..., file, name = NULL)
 ##'         are converted with as.keras().
 ##' @author Marius Hofert
 ##' @note as readRDS(), behaves more functional in that it returns an object
-loadGNN <- function(file)
+load_gnn <- function(file)
 {
     stopifnot(is.character(file))
     file <- paste0(rm_ext(file),".rda") # file with extension
     ## Create a temporary environment to load the objects into in order to
-    ## modify them and return them (without convoluting .GlobalEnv
+    ## modify them and return them (without convoluting .GlobalEnv)
     myenvir <- new.env()
     nms <- load(file, envir = myenvir) # load objects into myenvir
     len <- length(nms)

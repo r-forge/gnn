@@ -137,7 +137,8 @@ find_box <- function(x, endpoints = NULL,
                                   }
 
                ## Undo sorting and return
-               res.[order(ord)] # sanity check via: stopifnot(cbind(B., res.)[order(ord), 1:d] == B)
+               res.[order(ord)] # stopifnot(cbind(B., res.)[order(ord), 1:d] == B) # sanity check
+
            },
            stop("Wrong 'method'"))
 }

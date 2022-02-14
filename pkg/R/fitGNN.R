@@ -107,7 +107,7 @@ fitGNN.gnn_GNN <- function(x, data, batch.size = nrow(data), n.epoch = 100, prio
            "FNN" = {
                if(is.null(prior)) {
                    prior <- rPrior(nrow(data), copula = indepCopula(ncol(data))) # independent N(0,1)
-               } 
+               }
                ## Note:
                ## - x = data to be passed through NN as input
                ##   y = target/training data to compare against
@@ -173,7 +173,7 @@ fitGNNonce.gnn_GNN <- function(x, data, batch.size = nrow(data), n.epoch = 100,
     if(file.given && file.xsts) {
 
         ## Load its objects (thus converting the GNN(s) from 'raw' to 'keras' objects)
-        loadGNN(file)
+        load_gnn(file)
         ## Note: Could check whether returned object contains a GNN and
         ##       whether that's trained (and if not we could even train it),
         ##       but since 'file' most likely was saved by this function, there
@@ -189,7 +189,7 @@ fitGNNonce.gnn_GNN <- function(x, data, batch.size = nrow(data), n.epoch = 100,
         ## If file was provided, save the trained GNN (thus converting
         ## the model component from 'keras' to 'raw')
         if(file.given)
-            saveGNN(x, file = file, name = name)
+            save_gnn(x, file = file, name = name)
 
         ## Return trained GNN(s)
         x
