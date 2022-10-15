@@ -1,5 +1,9 @@
 ## Short-term
 - Fix: Paper citations from arXiv (once published)
+- gnn:::plot.gnn_GNN (and that of loss function) needs to be able to pass '...'
+  (for cex)
+- why 'max.n.prior' part of fitGNN()?
+- adapt get_weights() to extract weights of a trained NN
 
 ## Medium-term
 - export (very small doc) ./R/model.R classes and methods:

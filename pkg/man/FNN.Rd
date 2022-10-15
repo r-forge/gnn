@@ -115,14 +115,13 @@ P <- matrix(0.9, nrow = d, ncol = d); diag(P) <- 1 # correlation matrix
 ntrn <- 60000 # training data sample size
 set.seed(271)
 library(nvmix)
-X <- rNorm(ntrn, scale = P) # N(0,P) samples
-X. <- abs(X) # |X|
+X <- abs(rNorm(ntrn, scale = P)) # componentwise absolute values of N(0,P) sample
 
 ## Plot a subsample
 m <- 2000 # subsample size for plots
 opar <- par(pty = "s")
-plot(X.[1:m,], xlab = expression(X[1]), ylab = expression(X[2])) # plot |X|
-U <- apply(X., 2, rank) / (ntrn + 1) # pseudo-observations of |X|
+plot(X[1:m,], xlab = expression(X[1]), ylab = expression(X[2])) # plot |X|
+U <- apply(X, 2, rank) / (ntrn + 1) # pseudo-observations of |X|
 plot(U[1:m,], xlab = expression(U[1]), ylab = expression(U[2])) # visual check
 
 ## Model 1: A basic feedforward neural network (FNN) with MSE loss function
@@ -193,7 +192,6 @@ plot(V.fnnCvM., xlab = expression(V[1]), ylab = expression(V[2]), cex = 0.2)
 mtext("Trained NN with CvM loss", side = 4, line = 0.4, adj = 0)
 layout(1)
 par(opar)
-
 }
 }
 \keyword{models}
