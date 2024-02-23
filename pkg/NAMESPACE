@@ -56,7 +56,7 @@ export("catch", "TensorFlow_available", # use via if(!TensorFlow_available()) q(
        "rm_ext")
 export("rPrior")
 export("find_box")
-export("as.human", "human.time")
+export("human.time")
 
 ## Constructors
 export("FNN") # constructor of object of S3 class c("gnn_FNN", "gnn_GNN", "gnn_Model")
@@ -88,3 +88,4 @@ S3method("time",       "gnn_GNN")
 S3method("print",      "gnn_proc_time")
 S3method("plot",       "gnn_GNN")
 S3method("print",      "htest2")
+S3method("as.human",   "proc_time")

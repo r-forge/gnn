@@ -52,7 +52,6 @@ human.time(Sys.sleep(0.1)) # print human-readable time
 fnn <- FNN()
 time(fnn) # default print method for objects of class "gnn_proc_time"
 time(fnn, human = TRUE) # human-readable print method for such objects
-
 }
 }
 \keyword{utilities}
