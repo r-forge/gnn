@@ -13,7 +13,7 @@
 is.GNN <- function(x) UseMethod("is.GNN")
 
 ## Generic for printing objects of class "human_proc_time"
-print.as.human <- function(x) UseMethod("print.as.human")
+## print.as.human <- function(x) UseMethod("print.as.human")
 
 
 ### Methods ####################################################################

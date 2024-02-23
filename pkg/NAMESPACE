@@ -65,7 +65,7 @@ export("FNN") # constructor of object of S3 class c("gnn_FNN", "gnn_GNN", "gnn_M
 
 ## Generics
 export("is.GNN")
-export("print.as.human")
+## export("print.as.human")
 export("ffGNN")
 export("fitGNN", "fitGNNonce", "is.trained")
 export("rGNN")
@@ -78,7 +78,6 @@ S3method("summary",        "gnn_GNN")
 S3method("dim",            "gnn_GNN")
 S3method("is.GNN",         "gnn_GNN")
 S3method("is.GNN",         "list")
-S3method("print.as.human", "human_proc_time")
 S3method("ffGNN",          "gnn_GNN")
 S3method("fitGNN",         "gnn_GNN")
 S3method("is.trained",     "gnn_GNN")
