@@ -29,10 +29,13 @@ catch <- function(expr)
 ##' @title Test whether TensorFlow is Available
 ##' @return boolean indicating whether TensorFlow is found
 ##' @author Marius Hofert
-##' @note See https://stackoverflow.com/questions/38549253/how-to-find-which-version-of-tensorflow-is-installed-in-my-system
+##' @note - see https://stackoverflow.com/questions/38549253/how-to-find-which-version-of-tensorflow-is-installed-in-my-system
+##'       - Due to ERRORs on CRAN under r-devel-linux-x86_64-debian-clang,
+##'         r-devel-linux-x86_64-debian-gcc and r-patched-linux-x86_64,
+##'         we only test on macOS for now
 TensorFlow_available <- function() {
-    if(Sys.info()[["sysname"]] == "Windows") {
-        warning("'TensorFlow_available()' does not work on Windows. Will return FALSE.")
+    if(Sys.info()[["sysname"]] != "Darwin") { # used to be just "Windows"
+        ## warning("'TensorFlow_available()' does not work on Windows. Will return FALSE.")
         return(FALSE)
     }
     TFfound <- catch(system("pip list | grep tensorflow", ignore.stdout = TRUE))
