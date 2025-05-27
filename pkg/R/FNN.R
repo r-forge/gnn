@@ -10,13 +10,14 @@
 nparam_FNN <- function(x)
 {
     if(inherits(x, "gnn_GNN")) x <- x[["model"]]
-    num.tot.params <- count_params(x) # total number of parameters
+    num.tot.params <- count_params(x) # (integer) total number of parameters
     ## For the trainable parameters, there's no function, so we extract the information
-    x.as.char <- as.character(x)
-    char.vec <- strsplit(x.as.char, split = "\n")[[1]]
+    ## The following is fragile and needs the latest version of keras()
+    x.as.char <- as.character(x) # get model as string
+    char.vec <- strsplit(x.as.char, split = "\n")[[1]] # split at newlines
     pos <- which(sapply(char.vec, function(x) grepl("Trainable params:", x)))
-    rm.str <- sub("Trainable params: ", "", char.vec[pos])
-    num.trainable.params <- as.integer(gsub(",", "", rm.str))
+    num.str <- strsplit(char.vec[pos], split = " ")[[1]][3] # "Trainable" "params:" <then number>
+    num.trainable.params <- as.integer(num.str)
     ## Result
     c("trainable" = num.trainable.params,
       "non-trainable" = num.tot.params - num.trainable.params,
@@ -113,7 +114,7 @@ FNN <- function(dim = c(2, 2), activation = c(rep("relu", length(dim) - 2), "sig
     } else stop("'loss.fun' needs to be a character string or a function of the form function(x, y)")
 
     ## 4) Compile the model (compile() modifies 'model' in place)
-    compile(model, optimizer = "adam", loss = loss_fun) # configure the model's learning process with the compile method
+    compile(model, optimizer = "Adam", loss = loss_fun) # configure the model's learning process with the compile method
 
     ## Return
     structure(list(
@@ -133,7 +134,7 @@ FNN <- function(dim = c(2, 2), activation = c(rep("relu", length(dim) - 2), "sig
         n.epoch = NA_integer_, # integer(1) specifying the number of epochs used for training (or NA if not trained)
         loss = NA_real_, # numeric(n.epoch) containing the loss function values per epoch of training (or NA if not trained)
         time = system.time(NULL), # object of class "proc_time" (for training time)
-        prior = matrix(, nrow = 1, ncol = dim[1])), # for a (sub-)sample of the prior (e.g. for plot())
+        prior = matrix(, nrow = 0, ncol = dim[1])), # for a (sub-)sample of the prior (e.g. for plot())
         ## Class (part of structure())
         class = c("gnn_FNN", "gnn_GNN", "gnn_Model"))
 }

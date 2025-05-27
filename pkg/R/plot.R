@@ -89,4 +89,5 @@ plot.gnn_GNN <- function(x, kind = c("scatter", "loss"), max.n.samples = NULL,
                    if(y2lab != "") mtext(y2lab, side = 4, line = 0.5, adj = 0)
            },
            stop("Wrong 'kind'"))
+    invisible()
 }

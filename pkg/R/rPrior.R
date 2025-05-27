@@ -36,7 +36,7 @@ rPrior <- function(n, copula, qmargins = qnorm, method = c("pseudo", "sobol"), .
                 "sobol" = {
                     args <- list(...)
                     if(!hasArg("randomize"))
-                        args <- c(args, randomize = "digital.shift")
+                        args <- c(args, randomize = "digital.shift") # use digital shift as default
                     U. <- do.call(sobol, args = c(n = n, d = d, args))
                     if(!inherits(copula, "indepCopula") && # those having an inverse Rosenblatt transform
                        !inherits(copula, "claytonCopula") &&

@@ -2,9 +2,10 @@
 
 ##' @title Similarity Function Used in the Two-sample Cramer--von Mises Statistic
 ##'        of Remillard, Scaillet (2009, "Testing for equality between two copulas")
-##' @param x (n, d)-tensor (for training: n = batch size, d = dimension of input
-##'        dataset)
-##' @param y (m, d)-tensor (for training typically m = n)
+##' @param x (n, d)-tensor or matrix (for training: n = batch size, d = dimension
+##'        of input dataset); prior data
+##' @param y (m, d)-tensor or matrix (for training typically m = n);
+##'        training data (target)
 ##' @return 0d tensor containing the two-sample CvM statistic
 ##' @author Marius Hofert
 ##' @note - Broadcasting idea (turning arrays of different shapes into compatible ones); see
@@ -43,9 +44,10 @@ CvM_similarity <- function(x, y)
 
 ##' @title Two-sample Cramer--von Mises Statistic of Remillard, Scaillet (2009,
 ##'        "Testing for equality between two copulas")
-##' @param x (n, d)-tensor (for training: n = batch size, d = dimension of input
-##'        dataset)
-##' @param y (m, d)-tensor (for training typically m = n)
+##' @param x (n, d)-tensor or matrix (for training: n = batch size, d = dimension
+##'        of input dataset); prior data
+##' @param y (m, d)-tensor or matrix (for training typically m = n);
+##'        training data (target)
 ##' @return 0d tensor containing the two-sample CvM statistic
 ##' @author Marius Hofert
 ##' @note MWE:
@@ -85,9 +87,10 @@ CvM <- function(x, y)
 
 ##' @title Radial Basis Function Kernel (Similarity Measure between two Samples
 ##'        Used in the MMD)
-##' @param x (n, d)-tensor (for training: n = batch size, d = dimension of input
-##'        dataset)
-##' @param y (m, d)-tensor (for training typically m = n)
+##' @param x (n, d)-tensor or matrix (for training: n = batch size, d = dimension
+##'        of input dataset); prior data
+##' @param y (m, d)-tensor or matrix (for training typically m = n);
+##'        training data (target)
 ##' @param bandwidth numeric containing the bandwidth parameter(s);
 ##'        the default seems to work well for copula type of data (the smallest
 ##'        value was critical for learning copulas with singular component).
@@ -161,9 +164,10 @@ radial_basis_function_kernel <- function(x, y, bandwidth = 10^c(-3/2, -1, -1/2, 
 }
 
 ##' @title Maximum Mean Discrepancy (MMD)
-##' @param x (n, d)-tensor (for training: n = batch size, d = dimension of input
-##'        dataset)
-##' @param y (m, d)-tensor (for training typically m = n)
+##' @param x (n, d)-tensor or matrix (for training: n = batch size, d = dimension
+##'        of input dataset); prior data
+##' @param y (m, d)-tensor or matrix (for training typically m = n);
+##'        training data (target)
 ##' # @param method string indicating the method to be used to evaluate the MMD
 ##' @param ... additional arguments passed to the underlying
 ##'        radial_basis_function_kernel(), most notably 'bandwidth'
@@ -198,8 +202,9 @@ MMD <- function(x, y, ...) # method = c("tensorflow", "C"), ...)
 
 ##' @title Loss Function to Measure Statistical Discrepancy between Two Datasets
 ##' @param x (n, d)-tensor or matrix (for training: n = batch size, d = dimension
-##'        of input dataset)
-##' @param y (m, d)-tensor or matrix (for training typically m = n)
+##'        of input dataset); prior data
+##' @param y (m, d)-tensor or matrix (for training typically m = n);
+##'        training data (target)
 ##' @param type type of reconstruction loss function. Currently available are:
 ##'        "MMD": (kernel) maximum mean discrepancy
 ##'        "CvM": Cramer-von Mises statistic of Remillard, Scaillet (2009,

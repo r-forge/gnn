@@ -98,8 +98,8 @@ fitGNN.gnn_GNN <- function(x, data, batch.size = nrow(data), n.epoch = 100, prio
               verbose %% 1 == 0, 0 <= verbose, verbose <= 3)
     dim.out <- tail(dim(x), n = 1) # output dimension
     ## Note: for VAEs, dim.out = dim(x)[1] as input and output layer have the same dim
- ##   if(dim.train[2] != dim.out)
- ##       stop("The dimension of the training data does not match the   ## dimension of the output layer of the GNN")
+    ##       if(dim.train[2] != dim.out)
+    ##          stop("The dimension of the training data does not match the dimension of the output layer of the GNN")
 
     ## Train and possibly save
     type <- x[["type"]]
@@ -123,7 +123,7 @@ fitGNN.gnn_GNN <- function(x, data, batch.size = nrow(data), n.epoch = 100, prio
                             callbacks = callbacks) # ... progress determined through callback
                dots <- list(...)
                if(has.callbacks) dots$callbacks <- NULL # remove callbacks from '...'
-               tm <- system.time(history <- do.call(fit, args = c(args, dots)))
+               tm <- system.time(history <- do.call(fit, args = c(args, dots))) # fitting
 
                ## Update slots of 'x'
                x[["n.train"]] <- dim.train[1]
