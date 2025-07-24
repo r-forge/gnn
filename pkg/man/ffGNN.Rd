@@ -6,11 +6,13 @@
   Feedforward method for objects of \code{\link{S3}} class \code{"gnn_GNN"}.
 }
 \usage{
-\method{ffGNN}{gnn_GNN}(x, data)
+\method{ffGNN}{gnn_GNN}(x, data, verbose = 0)
 }
 \arguments{
   \item{x}{object of \code{\link{S3}} class \code{"gnn_GNN"}.}
   \item{data}{\code{\link{matrix}} to be fed forward through \code{x}.}
+  \item{verbose}{verbosity level of the underlying
+    \code{\link[keras]{predict.keras.engine.training.Model}{}}.}
 }
 \value{
   The output \code{\link{matrix}} of \code{x} when fed with \code{data}.
@@ -29,7 +31,6 @@ n <- 3
 set.seed(271)
 X <- ffGNN(GMMN, data = matrix(runif(n * d), ncol = d))
 stopifnot(dim(X) == c(n, d))
-
 }
 }
 \keyword{methods}

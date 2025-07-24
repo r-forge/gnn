@@ -10,7 +10,7 @@ rPrior(n, copula, qmargins = qnorm, method = c("pseudo", "sobol"), ...)
 \arguments{
   \item{n}{sample size, a positive \code{\link{integer}}.}
   \item{copula}{object of \code{\link{S4}} class \code{"Copula"} for
-    which the method \code{\link{rCopula}()} is available; see the \R
+    which the method \code{\link[copula]{rCopula}()} is available; see the \R
     package \pkg{copula}.}
   \item{qmargins}{marginal quantile \code{\link{function}} or a \code{\link{list}}
     of length \code{dim(x)[1]} of such.}

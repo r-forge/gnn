@@ -23,7 +23,7 @@ FNN(dim = c(2, 2), activation = c(rep("relu", length(dim) - 2), "sigmoid"),
     normalization layers are to be added after each hidden layer.}
   \item{dropout.rate}{\code{\link{numeric}} value in [0,1] specifying
     the fraction of input to be dropped; see the rate parameter of
-    \code{\link{layer_dropout}()}. Note that only if positive, dropout
+    \code{\link[keras]{layer_dropout}()}. Note that only if positive, dropout
     layers are added after each hidden layer.}
   \item{n.GPU}{non-negative \code{\link{integer}} specifying the number of GPUs
     available if the GPU version of TensorFlow is installed.
